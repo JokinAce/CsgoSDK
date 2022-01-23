@@ -6,25 +6,13 @@ using System.Numerics;
 namespace CsgoSDK {
 
     public class Engine {
-        private static Engine? Instance { get; set; }
-
-        public ProcessSharp Process { get; private set; }
         private IntPtr EngineDLL { get; set; }
 
         private readonly ExternalProcessMemory processMemory;
 
-        private Engine(ref ProcessSharp processSharp, ref ExternalProcessMemory externalProcessMemory) {
-            this.Process = processSharp;
+        public Engine(ref ExternalProcessMemory externalProcessMemory, IntPtr engineDLL) {
             this.processMemory = externalProcessMemory;
-            this.EngineDLL = this.Process["engine.dll"].BaseAddress;
-        }
-
-        public static Engine GetInstance(ref ProcessSharp processSharp, ref ExternalProcessMemory externalProcessMemory) {
-            if (Instance == null) {
-                Instance = new Engine(ref processSharp, ref externalProcessMemory);
-            }
-
-            return Instance;
+            this.EngineDLL = engineDLL;
         }
 
         public bool SendPackets {

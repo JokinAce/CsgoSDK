@@ -28,13 +28,12 @@ namespace CsgoSDK {
             }
         }
 
-        private static Overlay? Instance { get; set; }
         public Form OverlayForm { get; private set; }
         private int Width { get; set; }
         private int Height { get; set; }
         private IntPtr GameWindowHandle { get; set; }
 
-        private Overlay(int width, int heigth, IntPtr gameWindowHandle) {
+        public Overlay(int width, int heigth, IntPtr gameWindowHandle) {
             this.OverlayForm = new Form();
 
             this.Width = width;
@@ -57,12 +56,8 @@ namespace CsgoSDK {
             this.OverlayForm.Visible = true;
         }
 
-        public static Overlay GetInstance(int width, int heigth, IntPtr gameWindowHandle) {
-            if (Instance == null) {
-                Instance = new Overlay(width, heigth, gameWindowHandle);
-            }
-
-            return Instance;
+        public Graphics GetGraphics() {
+            return this.OverlayForm.CreateGraphics();
         }
 
         public void Toggle() {

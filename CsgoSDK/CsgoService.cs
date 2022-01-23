@@ -16,9 +16,9 @@ namespace CsgoSDK {
             this.process = new("csgo", MemoryType.Remote);
             this.processMemory = new(this.process.Handle);
 
-            this.Client = Client.GetInstance(ref this.process, ref this.processMemory);
-            this.Engine = Engine.GetInstance(ref this.process, ref this.processMemory);
-            this.Overlay = Overlay.GetInstance(this.process.WindowFactory.MainWindow.Height, this.process.WindowFactory.MainWindow.Width, this.process.Native.Handle);
+            this.Client = new(ref this.processMemory, this.process["client.dll"].BaseAddress);
+            this.Engine = new(ref this.processMemory, this.process["engine.dll"].BaseAddress);
+            this.Overlay = new(this.process.WindowFactory.MainWindow.Width, this.process.WindowFactory.MainWindow.Height, this.process.Native.Handle);
         }
 
         public static CsgoService GetInstance() {

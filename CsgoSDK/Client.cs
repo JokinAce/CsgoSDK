@@ -6,24 +6,13 @@ using Process.NET.Memory;
 namespace CsgoSDK {
 
     public class Client {
-        private static Client? Instance { get; set; }
-        public ProcessSharp Process { get; private set; }
         private IntPtr ClientDLL { get; set; }
 
         private ExternalProcessMemory processMemory;
 
-        private Client(ref ProcessSharp processSharp, ref ExternalProcessMemory externalProcessMemory) {
-            this.Process = processSharp;
+        public Client(ref ExternalProcessMemory externalProcessMemory, IntPtr clientDLL) {
             this.processMemory = externalProcessMemory;
-            this.ClientDLL = this.Process["client.dll"].BaseAddress;
-        }
-
-        public static Client GetInstance(ref ProcessSharp processSharp, ref ExternalProcessMemory externalProcessMemory) {
-            if (Instance == null) {
-                Instance = new Client(ref processSharp, ref externalProcessMemory);
-            }
-
-            return Instance;
+            this.ClientDLL = clientDLL;
         }
 
         public CBasePlayer GetLocalPlayer() {
